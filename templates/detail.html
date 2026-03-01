@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="referrer" content="no-referrer">
+    <title>{{ video.title }} - 詳細ギャラリー</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #e44d26;
+            --dark: #222;
+            --bg: #f0f2f5;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background: var(--bg);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            background: var(--dark);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            color: #666;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .main-img {
+            width: 100%;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+        }
+
+        /* 女優・ジャンルタグ */
+        .meta-info {
+            margin-bottom: 2rem;
+        }
+
+        .label {
+            font-weight: bold;
+            color: #888;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .tag {
+            background: #eee;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--dark);
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .tag:hover {
+            background: #ddd;
+        }
+
+        .actress-tag {
+            background: #fff0f0;
+            color: #d00;
+            border: 1px solid #ffcccc;
+        }
+
+        .actress-tag:hover {
+            background: #ffe0e0;
+        }
+
+        .price {
+            color: var(--primary);
+            font-size: 1.8rem;
+            font-weight: 900;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .buy-btn {
+            display: block;
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 12px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(228, 77, 38, 0.4);
+            transition: 0.3s;
+            margin-bottom: 3rem;
+        }
+
+        .buy-btn:hover {
+            transform: translateY(-3px);
+            background: #ff5e3a;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 2rem 0 1rem;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        /* サンプル画像ギャラリー */
+        .sample-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .sample-grid img {
+            width: 100%;
+            border-radius: 8px;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .sample-grid img:hover {
+            opacity: 0.8;
+            transform: scale(1.02);
+        }
+
+        /* 動画プレイヤー */
+        .video-container {
+            text-align: center;
+            margin-bottom: 2rem;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        video {
+            width: 100%;
+            display: block;
+            outline: none;
+        }
+
+        @media (max-width: 600px) {
+            .sample-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>PREMIUM DETAIL</h1>
+    </header>
+    <div class="container">
+        <a href="/gallery" class="back-link">← ギャラリーに戻る</a>
+
+        <img src="{{ video.image_url }}" alt="Package" class="main-img">
+
+        <h1>{{ video.title }}</h1>
+
+        <div class="meta-info">
+            <span class="label">出演：</span>
+            <div class="tags">
+                {% for a in video.actress.split(',') %}
+                {% set actress_name = a.strip() %}
+                {% if actress_name and actress_name != "不明" %}
+                <a href="/actress/{{ actress_name }}" class="tag actress-tag">{{ actress_name }}</a>
+                {% endif %}
+                {% endfor %}
+            </div>
+
+            <span class="label">ジャンル：</span>
+            <div class="tags">
+                {% for g in video.genre.split(',') %}
+                {% set genre_name = g.strip() %}
+                {% if genre_name and genre_name != "なし" %}
+                <a href="/genre/{{ genre_name }}" class="tag">{{ genre_name }}</a>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="price">特別価格：¥{{ video.price }}</div>
+
+        {% if video.sample_movie_url %}
+        <div class="section-title">サンプル動画（プレビュー）</div>
+        <div class="video-container">
+            <video controls preload="metadata" referrerpolicy="no-referrer">
+                <source src="{{ video.sample_movie_url }}" type="video/mp4">
+                お使いのブラウザは動画再生に対応していません。
+            </video>
+        </div>
+        {% endif %}
+
+        <a href="{{ video.url }}" target="_blank" class="buy-btn">公式サイトで本編を視聴する</a>
+
+        {% if samples %}
+        <div class="section-title">サンプル画像（チラ見せ）</div>
+        <div class="sample-grid">
+            {% for img_url in samples %}
+            <img src="{{ img_url }}" alt="Sample Image">
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</body>
+
+</html>
