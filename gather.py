@@ -1,6 +1,6 @@
 import requests
 import time
-from database import engine, Base
+from database import engine, Base, SessionLocal
 Base.metadata.create_all(bind=engine)
 
 # --- あなたの本物のIDに書き換えてください ---
