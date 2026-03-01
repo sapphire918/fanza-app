@@ -237,9 +237,10 @@
                 お使いのブラウザは動画再生に対応していません。
             </video>
         </div>
-        
+
         <div class="test-link-container">
-            <a href="{{ video.sample_movie_url }}" target="_blank" rel="noreferrer" style="color: blue; text-decoration: underline; font-weight: bold;">
+            <a href="{{ video.sample_movie_url }}" target="_blank" rel="noreferrer"
+                style="color: blue; text-decoration: underline; font-weight: bold;">
                 【テスト】ここをクリックして直接動画が開くか確認する
             </a>
         </div>
@@ -248,4 +249,14 @@
         <a href="{{ video.url }}" target="_blank" class="buy-btn">公式サイトで本編を視聴する</a>
 
         {% if samples %}
-        <div class="section-title">サンプル
+        <div class="section-title">サンプル画像（チラ見せ）</div>
+        <div class="sample-grid">
+            {% for img_url in samples %}
+            <img src="{{ img_url }}" alt="Sample Image">
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</body>
+
+</html>
