@@ -1,5 +1,6 @@
 import requests
 import time
+from main import Video
 from database import engine, Base, SessionLocal
 Base.metadata.create_all(bind=engine)
 
