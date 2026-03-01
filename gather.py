@@ -1,6 +1,7 @@
 import requests
 import time
-from database import SessionLocal, Video
+from database import engine, Base
+Base.metadata.create_all(bind=engine)
 
 # --- あなたの本物のIDに書き換えてください ---
 API_ID = "97BNTaqL2r6X9qX6VPYd"
