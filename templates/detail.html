@@ -65,7 +65,7 @@
 
         /* 女優・ジャンルタグ */
         .meta-info {
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .label {
@@ -106,6 +106,44 @@
         .actress-tag:hover {
             background: #ffe0e0;
         }
+
+        /* --- 今回追加した詳細データ用のテーブル設定 --- */
+        .detail-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+            background: #fdfdfd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .detail-table th, .detail-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+        .detail-table th {
+            background: #f4f4f4;
+            width: 30%;
+            font-weight: bold;
+            color: #444;
+        }
+        .detail-table tr:last-child th, .detail-table tr:last-child td {
+            border-bottom: none;
+        }
+        .review-stars {
+            color: #ffb400;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .review-count {
+            color: #888;
+            font-size: 0.85rem;
+            font-weight: normal;
+            margin-left: 5px;
+        }
+        /* ------------------------------------------- */
 
         .price {
             color: var(--primary);
@@ -224,6 +262,38 @@
             </div>
         </div>
 
+        <table class="detail-table">
+            {% if video.release_date %}
+            <tr><th>配信開始日</th><td>{{ video.release_date }}</td></tr>
+            {% endif %}
+            
+            {% if video.volume %}
+            <tr><th>収録時間</th><td>{{ video.volume }}分</td></tr>
+            {% endif %}
+            
+            {% if video.maker %}
+            <tr><th>メーカー</th><td>{{ video.maker }}</td></tr>
+            {% endif %}
+            
+            {% if video.label %}
+            <tr><th>レーベル</th><td>{{ video.label }}</td></tr>
+            {% endif %}
+            
+            {% if video.series %}
+            <tr><th>シリーズ</th><td>{{ video.series }}</td></tr>
+            {% endif %}
+            
+            {% if video.director %}
+            <tr><th>監督</th><td>{{ video.director }}</td></tr>
+            {% endif %}
+            
+            {% if video.review_count and video.review_count > 0 %}
+            <tr>
+                <th>レビュー評価</th>
+                <td class="review-stars">★ {{ video.review_average }} <span class="review-count">({{ video.review_count }}件)</span></td>
+            </tr>
+            {% endif %}
+        </table>
         <div class="price">特別価格：¥{{ video.price }}</div>
 
         {% if video.sample_movie_url %}

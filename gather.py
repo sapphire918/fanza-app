@@ -1,7 +1,8 @@
 import requests
 import time
-from main import Video
-from database import engine, Base, SessionLocal
+# ↓ Videoの呼び出し元を main から database に変更しました！
+from database import engine, Base, SessionLocal, Video 
+
 Base.metadata.create_all(bind=engine)
 
 # --- あなたの本物のIDに書き換えてください ---
@@ -44,7 +45,7 @@ def gather_data_bulk(max_pages=5):
                     samples = item.get('sampleImageURL', {}).get('sample_l', {}).get('image', [])
                     sample_urls = ",".join(samples) if samples else ""
 
-                    # 4. サンプル動画（複数サイズから一番良いものを探すプロの技）
+                    # 4. サンプル動画
                     sample_movie = item.get('sampleMovieURL', {})
                     movie_url = ""
                     if sample_movie:
@@ -53,17 +54,62 @@ def gather_data_bulk(max_pages=5):
                                 movie_url = sample_movie[size]
                                 break
                     
+                    # --- ★ ここから新しく追加した詳細データの取得 ★ ---
+                    iteminfo = item.get('iteminfo', {})
+                    
+                    # メーカー
+                    maker_list = iteminfo.get('maker', [])
+                    maker_name = maker_list[0]['name'] if maker_list else ""
+                    
+                    # レーベル
+                    label_list = iteminfo.get('label', [])
+                    label_name = label_list[0]['name'] if label_list else ""
+                    
+                    # シリーズ
+                    series_list = iteminfo.get('series', [])
+                    series_name = series_list[0]['name'] if series_list else ""
+                    
+                    # 監督
+                    director_list = iteminfo.get('director', [])
+                    director_name = director_list[0]['name'] if director_list else ""
+                    
+                    # 発売日と収録時間
+                    release_date = item.get('date', "")
+                    volume = item.get('volume', "")
+                    
+                    # レビュー点数と件数（エラーにならないよう安全に変換）
+                    review_data = item.get('review', {})
+                    review_average = 0.0
+                    review_count = 0
+                    if isinstance(review_data, dict):
+                        try:
+                            review_average = float(review_data.get('average', 0.0))
+                            review_count = int(review_data.get('count', 0))
+                        except (ValueError, TypeError):
+                            pass
+                    # ------------------------------------------------
+                    
                     # 金庫に保存
                     video = Video(
                         content_id=item['content_id'],
                         title=item['title'],
                         url=item['affiliateURL'],
                         image_url=item['imageURL']['large'],
-                        price=str(item['prices']['price']),
+                        price=str(item.get('prices', {}).get('price', '0')),
                         actress=actress_names,      
                         genre=genre_names,          
                         sample_images=sample_urls,
-                        sample_movie_url=movie_url  # ← 動画URLを保存！
+                        sample_movie_url=movie_url,
+                        
+                        # 新しいデータを追加保存！
+                        maker=maker_name,
+                        label=label_name,
+                        series=series_name,
+                        director=director_name,
+                        release_date=release_date,
+                        review_average=review_average,
+                        review_count=review_count,
+                        volume=volume
                     )
                     db.add(video)
                     total_new_count += 1
