@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>年齢確認 - PREMIUM GALLERY</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #111;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .warning-box {
+            background-color: #222;
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border-top: 5px solid #e44d26;
+        }
+        h1 {
+            color: #e44d26;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: #ccc;
+        }
+        .btn-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        .btn {
+            padding: 15px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        /* これが「ギャラリーへ進む」ボタンのデザイン */
+        .btn-yes {
+            background-color: #e44d26;
+            color: #fff;
+        }
+        .btn-yes:hover {
+            background-color: #ff5e3a;
+        }
+        /* これが「退室する」ボタンのデザイン */
+        .btn-no {
+            background-color: #444;
+            color: #fff;
+        }
+        .btn-no:hover {
+            background-color: #666;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="warning-box">
+        <h1>【年齢確認】18歳以上ですか？</h1>
+        <p>
+            ここから先は、アダルトコンテンツを含む<br>
+            18歳未満アクセス禁止のサイトです。<br><br>
+            あなたは18歳以上ですか？
+        </p>
+        <div class="btn-container">
+            <a href="/gallery" class="btn btn-yes">はい（18歳以上）</a>
+            
+            <a href="https://www.google.co.jp/" class="btn btn-no">いいえ（退室する）</a>
+        </div>
+    </div>
+
+</body>
+</html>
